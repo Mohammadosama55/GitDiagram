@@ -16,6 +16,8 @@ export function Diagram({ code }: { code: string }) {
                 mermaid.initialize({
                     startOnLoad: false,
                     theme: "base",
+                    htmlLabels: false,
+                    flowchart: { htmlLabels: false },
                     themeVariables: {
                         fontFamily: getComputedStyle(document.body).fontFamily,
                         primaryColor: "#F8FAFB",

@@ -147,3 +147,9 @@ h1 {
   .titleblock > div:nth-child(even) { border-left: none; }
   .titleblock > div:nth-child(n + 2) { border-top: 1.5px solid var(--ink); }
 }
+
+.actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
