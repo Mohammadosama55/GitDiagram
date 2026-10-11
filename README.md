@@ -5,7 +5,7 @@ Paste a public GitHub repository link and get its architecture drawn as a diagra
 **Live demo:** https://git-diagram-eosin.vercel.app/
 
 <!-- Add a screenshot: save it as docs/screenshot.png and uncomment the next line -->
-![Repo Diagram screenshot](docs/screenshot.png)
+![Repo Diagram screenshot](docs/Screenshot.png)
 
 ## What it does
 
