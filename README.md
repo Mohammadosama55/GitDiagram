@@ -1,35 +1,25 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# Repo Diagram
 
-## Getting Started
-
-First, run the development server:
-
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or# Repo Diagram
- 
 Paste a public GitHub repository link and get its architecture drawn as a diagram.
- 
+
 **Live demo:** https://git-diagram-eosin.vercel.app/
 
-![Repo Diagram screenshot](docs/Screenshot.png)
- 
+<!-- Add a screenshot: save it as docs/screenshot.png and uncomment the next line -->
+![Repo Diagram screenshot](docs/screenshot.png)
+
 ## What it does
- 
+
 Reading an unfamiliar codebase is slow. Repo Diagram reads a repository's file tree, README and key files, asks an LLM to describe how the pieces fit together, and renders the result as a Mermaid flowchart on a drafting-sheet style page.
- 
+
 - Works with any public GitHub repository
 - Groups the diagram into layers such as Frontend, Backend, Database and External Services
 - Shareable links: `/owner/repo` opens the diagram directly
 - Download the diagram as **SVG** or **PNG**
 - **Redraw** button when you want a fresh take
 - Results are cached per repository, and requests are rate limited to protect the API budget
+
 ## How it works
- 
+
 ```
 GitHub URL
    │
@@ -46,69 +36,71 @@ GitHub URL
    ▼
 7. Render Mermaid in the browser   (mermaid.js)
 ```
- 
+
 The LLM call is the slow part (about 10 to 30 seconds). Cached repositories return almost instantly.
- 
+
 ## Tech stack
- 
+
 - [Next.js](https://nextjs.org/) (App Router) and TypeScript
 - [Mermaid](https://mermaid.js.org/) for rendering
 - [Groq](https://groq.com/) for LLM inference, using `openai/gpt-oss-120b` with `qwen/qwen3.8-27b` as a fallback
 - GitHub REST API for repository data
 - Deployed on [Vercel](https://vercel.com/)
+
 ## Getting started
- 
+
 ### Prerequisites
- 
+
 - Node.js 20 or newer
 - A Groq API key (or any OpenAI-compatible provider)
+
 ### Install and run
- 
+
 ```bash
-git clone https://github.com/Mohammadosama55/gitdiagram.git
-cd gitdiagram
+git clone https://github.com/Mohammadosama55/GitDiagram.git
+cd GitDiagram
 npm install
 ```
- 
+
 Create a `.env` file in the project root:
- 
+
 ```env
 LLM_API_KEY=your_api_key
 LLM_BASE_URL=https://api.groq.com/openai/v1
 LLM_MODEL=openai/gpt-oss-120b
 LLM_FALLBACK_MODEL=qwen/qwen3.8-27b
 ```
- 
+
 Start the dev server:
- 
+
 ```bash
 npm run dev
 ```
- 
+
 Open http://localhost:3000, paste a GitHub URL and click **Draw diagram**.
- 
+
 ### Environment variables
- 
+
 | Variable | Description |
 |---|---|
 | `LLM_API_KEY` | API key for the LLM provider |
 | `LLM_BASE_URL` | Base URL of an OpenAI-compatible API, without `/chat/completions` |
 | `LLM_MODEL` | Primary model name |
 | `LLM_FALLBACK_MODEL` | Model to use if the primary one is busy (optional) |
- 
+
 Never commit your `.env` file. It is already ignored by `.gitignore`.
- 
+
 ## API
- 
+
 ### `GET /api/diagram`
- 
+
 | Query param | Description |
 |---|---|
 | `url` | Public GitHub repository URL (required) |
 | `refresh` | Set to `1` to skip the cache and redraw |
- 
+
 Example response:
- 
+
 ```json
 {
   "owner": "Mohammadosama55",
@@ -118,11 +110,11 @@ Example response:
   "cached": false
 }
 ```
- 
+
 Errors return `{ "error": "..." }` with status `400`, `429` (rate limited) or `500`.
- 
+
 ## Project structure
- 
+
 ```
 app/
 ├── [owner]/[repo]/page.tsx   shareable diagram pages
@@ -144,48 +136,27 @@ lib/
 ├── cache.ts                  in-memory cache with expiry
 └── rateLimit.ts              per-visitor rate limiting
 ```
- 
+
 ## Limitations
- 
+
 - Works with **public repositories** only. Private repositories return a 404 from GitHub.
 - Diagram quality depends on the repository and the LLM. Use **Redraw** if the result is weak.
 - Unauthenticated GitHub API access is limited to 60 requests per hour per IP.
 - The cache and rate limiter are in memory. On serverless hosting they are not shared between instances, so they work best-effort.
+
 ## Roadmap
- 
+
 - [ ] Persistent cache and rate limiting with Redis
 - [ ] GitHub token support for higher API limits
 - [ ] Pan and zoom for large diagrams
 - [ ] Subfolder and branch URLs (monorepos)
 - [ ] Live Mermaid editor beside the diagram
+
 ## Author
- 
+
 **Mohammad Osama**
 GitHub: [@Mohammadosama55](https://github.com/Mohammadosama55)
- 
+
 ## License
- 
+
 MIT
-bun dev
-```
-
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
-
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
-
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
-
-## Learn More
-
-To learn more about Next.js, take a look at the following resources:
-
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
-
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
-
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
