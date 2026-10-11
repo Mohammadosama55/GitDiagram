@@ -7,6 +7,9 @@ import { generateMermaid } from "@/lib/llm";
 import { getCached, setCached } from "@/lib/cache";
 import { isRateLimited } from "@/lib/rateLimit";
 
+
+export const maxDuration = 60;
+
 export async function GET(request: NextRequest) {
     const url = request.nextUrl.searchParams.get("url");
     if (!url) {
