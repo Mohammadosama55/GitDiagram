@@ -1,26 +1,123 @@
-@import "tailwindcss";
-
 :root {
-  --background: #ffffff;
-  --foreground: #171717;
+  --vellum: #eaeff3;
+  --sheet: #f8fafb;
+  --grid: rgba(18, 35, 61, 0.08);
+  --ink: #12233d;
+  --pencil: #5b6b80;
+  --highlighter: #f2c230;
+  --redline: #b3261e;
 }
 
-@theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
-}
-
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
-}
+* { box-sizing: border-box; }
+html, body { margin: 0; }
 
 body {
-  background: var(--background);
-  color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+  min-height: 100vh;
+  background-color: var(--vellum);
+  background-image:
+    linear-gradient(var(--grid) 1px, transparent 1px),
+    linear-gradient(90deg, var(--grid) 1px, transparent 1px);
+  background-size: 32px 32px;
+  color: var(--ink);
+  font-family: var(--font-sans), system-ui, sans-serif;
+  line-height: 1.5;
+}
+
+.page {
+  max-width: 960px;
+  margin: 0 auto;
+  padding: 56px 20px 80px;
+}
+
+h1 {
+  margin: 0;
+  max-width: 16ch;
+  font-family: var(--font-serif), Georgia, serif;
+  font-weight: 400;
+  font-size: clamp(2.5rem, 7vw, 4.25rem);
+  line-height: 1.02;
+}
+
+.lede {
+  margin: 16px 0 32px;
+  max-width: 52ch;
+  color: var(--pencil);
+  font-size: 1.1rem;
+}
+
+.form {
+  display: flex;
+  background: var(--sheet);
+  border: 1.5px solid var(--ink);
+}
+.form:focus-within {
+  outline: 3px solid var(--highlighter);
+  outline-offset: 2px;
+}
+.form input {
+  flex: 1;
+  min-width: 0;
+  padding: 14px 16px;
+  border: none;
+  outline: none;
+  background: transparent;
+  color: var(--ink);
+  font: inherit;
+}
+.form button {
+  padding: 0 24px;
+  border: none;
+  background: var(--ink);
+  color: var(--sheet);
+  font: inherit;
+  font-weight: 600;
+  cursor: pointer;
+}
+.form button:hover:not(:disabled) { background: #1e3a64; }
+.form button:disabled { opacity: 0.5; cursor: not-allowed; }
+.form button:focus-visible {
+  outline: 3px solid var(--highlighter);
+  outline-offset: -3px;
+}
+
+/* the drawing sheet: double frame */
+.sheet {
+  margin-top: 40px;
+  padding: 24px;
+  min-height: 320px;
+  background: var(--sheet);
+  border: 1.5px solid var(--ink);
+  outline: 1px solid var(--ink);
+  outline-offset: 5px;
+  overflow-x: auto;
+}
+.sheet svg { max-width: 100%; height: auto; }
+
+.hint { margin: 0; color: var(--pencil); }
+
+.error {
+  margin: 0;
+  padding-left: 12px;
+  border-left: 3px solid var(--redline);
+  color: var(--redline);
+}
+
+/* title block, bottom-right corner of the sheet */
+.titleblock {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  max-width: 420px;
+  margin: 24px 0 0 auto;
+  border: 1.5px solid var(--ink);
+}
+.titleblock > div { padding: 8px 12px; }
+.titleblock > div + div { border-left: 1.5px solid var(--ink); }
+.titleblock dt { color: var(--pencil); font-size: 0.8rem; }
+.titleblock dd { margin: 0; font-weight: 600; overflow-wrap: anywhere; }
+
+@media (max-width: 520px) {
+  .form { flex-direction: column; }
+  .form button { padding: 12px; }
+  .titleblock { grid-template-columns: 1fr; }
+  .titleblock > div + div { border-left: none; border-top: 1.5px solid var(--ink); }
 }
